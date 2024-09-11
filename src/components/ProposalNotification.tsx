@@ -8,25 +8,20 @@ import {
   Card,
   CardActions,
   CardContent,
-  CardMedia,
   Chip,
   Divider,
   Grid,
-  Grid2,
   Typography,
   useTheme,
 } from "@mui/material";
 import React from "react";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 
 interface ProposalNotificationProps {
-  notification: Notification;
+  notification: Notification | any;
 }
 
 function ProposalNotification(props: ProposalNotificationProps) {
-  const eur = new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "EUR",
-  });
   const theme = useTheme();
 
   return (
@@ -45,7 +40,14 @@ function ProposalNotification(props: ProposalNotificationProps) {
     >
       <Chip
         label={
-          <Typography fontWeight={"bold"} variant="h6" gutterBottom>
+          <Typography
+            sx={{
+              fontSize: { xs: "0.9rem", md: "1.3rem" },
+            }}
+            fontWeight={"bold"}
+            variant="h6"
+            gutterBottom
+          >
             {props.notification.title}
           </Typography>
         }
@@ -63,7 +65,7 @@ function ProposalNotification(props: ProposalNotificationProps) {
         </b>{" "}
         for <b>{props.notification.proposal?.position}</b> position.
       </Typography>
-      <Box sx={{ width: "60%" }}>
+      <Box sx={{ width: { xs: "100%", md: "60%" } }}>
         <Card
           sx={{
             padding: 3,
@@ -83,6 +85,7 @@ function ProposalNotification(props: ProposalNotificationProps) {
             <AvatarGroup
               sx={{
                 display: "flex",
+                flexDirection: { xs: "column-reverse", md: "row" },
                 justifyContent: "center",
                 alignItems: "center",
               }}
@@ -92,18 +95,22 @@ function ProposalNotification(props: ProposalNotificationProps) {
                   width: 200,
                   height: 200,
                   backgroundColor: "transparent",
+                  objectFit: "cover",
+                  objectPosition: "center",
                 }}
                 src={props.notification.proposal?.avatar}
-                alt={props.notification.proposal?.avatar}
+                alt={props.notification.proposal?.sentPlayerName}
               />
               <Avatar
                 sx={{
                   width: 200,
                   height: 200,
                   backgroundColor: "transparent",
+                  objectFit: "cover",
+                  objectPosition: "center",
                 }}
-                src={props.notification.proposal?.teamLogo}
-                alt={props.notification.proposal?.teamName}
+                src={props.notification.proposal?.offeredClubLogo}
+                alt={props.notification.proposal?.offeredClubName}
               />
             </AvatarGroup>
           </Box>
@@ -115,8 +122,8 @@ function ProposalNotification(props: ProposalNotificationProps) {
               alignItems: "center",
             }}
           >
-            <Grid2 container spacing={4}>
-              <Grid2 item xs={12}>
+            <Grid container spacing={4}>
+              <Grid item xs={12} md={4}>
                 <Typography variant="h5" component="div">
                   Personal
                 </Typography>
@@ -138,16 +145,17 @@ function ProposalNotification(props: ProposalNotificationProps) {
                     ).getFullYear()}
                   {`(${new Date(
                     props.notification.proposal?.birthDate
-                  ).toLocaleDateString()})`}
+                  ).toLocaleDateString("en-US")})`}
                 </Typography>
-              </Grid2>
-              <Grid2 item xs={12}>
+              </Grid>
+              <Grid item xs={12} md={4}>
                 <Typography variant="h5" component="div">
                   In-Pitch
                 </Typography>
                 <Divider />
                 <Typography variant="h6" component="div">
                   Position: {props.notification.proposal?.position} -{" "}
+                  {/* @ts-expect-error - emoji */}
                   {positionEmojis[props.notification.proposal?.position] ||
                     "⚽️"}
                 </Typography>
@@ -157,13 +165,15 @@ function ProposalNotification(props: ProposalNotificationProps) {
                 </Typography>
                 <Typography variant="h6" component="div">
                   Requested At:{" "}
-                  {new Date(props.notification.createdAt).toLocaleDateString()}
+                  {new Date(props.notification.createdAt).toLocaleDateString(
+                    "en-US"
+                  )}
                 </Typography>
                 <Typography variant="h6" component="div">
                   Uniform Number: #{props.notification.proposal?.uniformNumber}
                 </Typography>
-              </Grid2>
-              <Grid2 item xs={12}>
+              </Grid>
+              <Grid item xs={12} md={4}>
                 <Typography variant="h5" component="div">
                   Stats
                 </Typography>
@@ -189,11 +199,21 @@ function ProposalNotification(props: ProposalNotificationProps) {
                   {"' "}
                   ⏱️
                 </Typography>
-              </Grid2>
-            </Grid2>
+              </Grid>
+            </Grid>
           </CardContent>
-          <CardActions>
+          <CardActions
+            sx={{
+              display: "flex",
+              flexDirection: { xs: "column", md: "row" },
+              justifyContent: "space-around",
+              alignItems: "center",
+              gap: 3,
+            }}
+          >
             <Button
+              fullWidth
+              endIcon={<ArrowForwardIcon />}
               variant="contained"
               size="medium"
               sx={{ fontWeight: "bold" }}
@@ -202,6 +222,15 @@ function ProposalNotification(props: ProposalNotificationProps) {
               Show Interest
             </Button>
             <Button
+              fullWidth
+              endIcon={
+                <img
+                  width="22"
+                  height="22"
+                  src="/icons/icons8-football-club-24.png"
+                  alt="external-football-soccer-tulpahn-basic-outline-tulpahn-5"
+                />
+              }
               variant="contained"
               size="medium"
               sx={{ fontWeight: "bold" }}
@@ -210,12 +239,21 @@ function ProposalNotification(props: ProposalNotificationProps) {
               View Team
             </Button>
             <Button
+              fullWidth
+              endIcon={
+                <img
+                  width="22"
+                  height="22"
+                  src="/icons/icons8-football-player-24.png"
+                  alt="external-football-soccer-tulpahn-basic-outline-tulpahn-5"
+                />
+              }
               variant="contained"
               size="medium"
               sx={{ fontWeight: "bold" }}
               color="error"
             >
-              Mark as Read
+              View Player
             </Button>
           </CardActions>
         </Card>

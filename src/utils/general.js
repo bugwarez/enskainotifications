@@ -12,6 +12,29 @@ export function getNotificationTitle(notification) {
 }
 
 export function getTimeAgo(createdAt) {
-  const diffInMinutes = Math.floor((new Date() - new Date(createdAt)) / 60000);
-  return `${diffInMinutes} minutes ago`;
+  const currentTime = new Date();
+  const createdAtTime = new Date(createdAt);
+  const timeDifference = currentTime - createdAtTime;
+  const seconds = timeDifference / 1000;
+  const minutes = seconds / 60;
+  const hours = minutes / 60;
+  const days = hours / 24;
+  const months = days / 30;
+  const years = months / 12;
+
+  if (years >= 1) {
+    return `${Math.floor(years)} years ago`;
+  } else if (months >= 1) {
+    return `${Math.floor(months)} months ago`;
+  } else if (days >= 1) {
+    return `${Math.floor(days)} days ago`;
+  } else if (hours >= 1) {
+    return `${Math.floor(hours)} hours ago`;
+  } else if (minutes >= 1) {
+    return `${Math.floor(minutes)} minutes ago`;
+  } else {
+    return `${Math.floor(seconds)} seconds ago`;
+  }
+
+  return `${createdAt}`;
 }

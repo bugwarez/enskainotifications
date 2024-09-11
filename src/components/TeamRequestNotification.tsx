@@ -8,7 +8,6 @@ import {
   Card,
   CardActions,
   CardContent,
-  CardMedia,
   Chip,
   Typography,
   useTheme,
@@ -16,7 +15,7 @@ import {
 import React from "react";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 interface TeamRequestNotificationProps {
-  notification: Notification;
+  notification: Notification | any;
 }
 
 function TeamRequestNotification(props: TeamRequestNotificationProps) {
@@ -25,7 +24,6 @@ function TeamRequestNotification(props: TeamRequestNotificationProps) {
     currency: "EUR",
   });
   const theme = useTheme();
-  console.log("props", props);
   return (
     <Box
       sx={{
@@ -42,7 +40,14 @@ function TeamRequestNotification(props: TeamRequestNotificationProps) {
     >
       <Chip
         label={
-          <Typography fontWeight={"bold"} variant="h6" gutterBottom>
+          <Typography
+            sx={{
+              fontSize: { xs: "0.9rem", md: "1.3rem" },
+            }}
+            fontWeight={"bold"}
+            variant="h6"
+            gutterBottom
+          >
             {props.notification.title}
           </Typography>
         }
@@ -61,7 +66,7 @@ function TeamRequestNotification(props: TeamRequestNotificationProps) {
         <b>{props.notification.teamRequest?.requestedPosition}</b> player. You
         may be interested in this opportunity.
       </Typography>
-      <Box sx={{ width: "60%" }}>
+      <Box sx={{ width: { xs: "100%", md: "60%" } }}>
         <Card
           sx={{
             padding: 3,
@@ -81,6 +86,8 @@ function TeamRequestNotification(props: TeamRequestNotificationProps) {
             <AvatarGroup
               sx={{
                 display: "flex",
+                flexDirection: { xs: "column-reverse", md: "row" },
+
                 justifyContent: "center",
                 alignItems: "center",
               }}
@@ -102,6 +109,7 @@ function TeamRequestNotification(props: TeamRequestNotificationProps) {
                 }}
               >
                 <Typography fontSize={200} sx={{ p: 0, m: 0 }} variant="h6">
+                  {/* @ts-expect-error - emoji */}
                   {positionEmojis[
                     props.notification.teamRequest?.requestedPosition
                   ] || "⚽️"}
@@ -112,6 +120,7 @@ function TeamRequestNotification(props: TeamRequestNotificationProps) {
           <CardContent>
             <Typography variant="h6" component="div">
               Position: {props.notification.teamRequest?.requestedPosition} -{" "}
+              {/* @ts-expect-error - emoji */}
               {positionEmojis[
                 props.notification.teamRequest?.requestedPosition
               ] || "⚽️"}
@@ -125,7 +134,9 @@ function TeamRequestNotification(props: TeamRequestNotificationProps) {
             </Typography>
             <Typography variant="h6" component="div">
               Requested At:{" "}
-              {new Date(props.notification.createdAt).toLocaleDateString()}
+              {new Date(props.notification.createdAt).toLocaleDateString(
+                "en-US"
+              )}
             </Typography>
             <Typography variant="h6" component="div">
               Financials:{" "}
@@ -133,8 +144,17 @@ function TeamRequestNotification(props: TeamRequestNotificationProps) {
               {eur.format(props.notification.teamRequest?.financials[1])}
             </Typography>
           </CardContent>
-          <CardActions>
+          <CardActions
+            sx={{
+              display: "flex",
+              flexDirection: { xs: "column", md: "row" },
+              justifyContent: "space-around",
+              alignItems: "center",
+              gap: 3,
+            }}
+          >
             <Button
+              fullWidth
               endIcon={<ArrowForwardIcon />}
               variant="contained"
               size="medium"
@@ -144,6 +164,7 @@ function TeamRequestNotification(props: TeamRequestNotificationProps) {
               Show Interest
             </Button>
             <Button
+              fullWidth
               endIcon={
                 <img
                   width="22"

@@ -7,7 +7,6 @@ export const lightTheme = createTheme({
       textTransform: "none",
     },
   },
-  //change the default text size of tooltip
   palette: {
     mode: "light",
     primary: {

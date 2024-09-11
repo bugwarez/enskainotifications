@@ -8,25 +8,20 @@ import {
   Card,
   CardActions,
   CardContent,
-  CardMedia,
   Chip,
   Divider,
   Grid,
-  Grid2,
   Typography,
   useTheme,
 } from "@mui/material";
 import React from "react";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 
 interface PlayerNotificationProps {
-  notification: Notification;
+  notification: Notification | any;
 }
 
 function PlayerNotification(props: PlayerNotificationProps) {
-  const eur = new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "EUR",
-  });
   const theme = useTheme();
 
   return (
@@ -45,7 +40,14 @@ function PlayerNotification(props: PlayerNotificationProps) {
     >
       <Chip
         label={
-          <Typography fontWeight={"bold"} variant="h6" gutterBottom>
+          <Typography
+            sx={{
+              fontSize: { xs: "0.9rem", md: "1.3rem" },
+            }}
+            fontWeight={"bold"}
+            variant="h6"
+            gutterBottom
+          >
             {props.notification.title}
           </Typography>
         }
@@ -60,10 +62,11 @@ function PlayerNotification(props: PlayerNotificationProps) {
           {props.notification.player?.currentTeam}(
           {props.notification.player?.currentTeamCountry})
         </b>{" "}
-        is assigned to you <b>{props.notification.player?.requestedPosition}</b>{" "}
-        player. You should to take a closer look at player&apos;s details
+        is assigned to you
+        <b>{props.notification.player?.requestedPosition}</b> player. You should
+        to take a closer look at player&apos;s details
       </Typography>
-      <Box sx={{ width: "60%" }}>
+      <Box sx={{ width: { xs: "100%", md: "60%" } }}>
         <Card
           sx={{
             padding: 3,
@@ -85,6 +88,7 @@ function PlayerNotification(props: PlayerNotificationProps) {
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
+                flexDirection: { xs: "column-reverse", md: "row" },
               }}
             >
               <Avatar
@@ -115,8 +119,8 @@ function PlayerNotification(props: PlayerNotificationProps) {
               alignItems: "center",
             }}
           >
-            <Grid2 container spacing={4}>
-              <Grid2 item xs={12}>
+            <Grid container spacing={4}>
+              <Grid item xs={12} md={4}>
                 <Typography variant="h5" component="div">
                   Personal
                 </Typography>
@@ -138,16 +142,17 @@ function PlayerNotification(props: PlayerNotificationProps) {
                     ).getFullYear()}
                   {`(${new Date(
                     props.notification.player?.birthDate
-                  ).toLocaleDateString()})`}
+                  ).toLocaleDateString("en-US")})`}
                 </Typography>
-              </Grid2>
-              <Grid2 item xs={12}>
+              </Grid>
+              <Grid item xs={12} md={4}>
                 <Typography variant="h5" component="div">
                   In-Pitch
                 </Typography>
                 <Divider />
                 <Typography variant="h6" component="div">
                   Position: {props.notification.player?.position} -{" "}
+                  {/* @ts-expect-error - emoji */}
                   {positionEmojis[props.notification.player?.position] || "⚽️"}
                 </Typography>
                 <Typography variant="h6" component="div">
@@ -156,13 +161,15 @@ function PlayerNotification(props: PlayerNotificationProps) {
                 </Typography>
                 <Typography variant="h6" component="div">
                   Requested At:{" "}
-                  {new Date(props.notification.createdAt).toLocaleDateString()}
+                  {new Date(props.notification.createdAt).toLocaleDateString(
+                    "en-US"
+                  )}
                 </Typography>
                 <Typography variant="h6" component="div">
                   Uniform Number: #{props.notification.player?.uniformNumber}
                 </Typography>
-              </Grid2>
-              <Grid2 item xs={12}>
+              </Grid>
+              <Grid item xs={12} md={4}>
                 <Typography variant="h5" component="div">
                   Stats
                 </Typography>
@@ -179,20 +186,27 @@ function PlayerNotification(props: PlayerNotificationProps) {
                 </Typography>
                 <Typography variant="h6" component="div">
                   Time On Field:{" "}
-                  {
-                    //show the number as digits if its more than 1000
-                    props.notification.player?.timeOnField > 1000
-                      ? props.notification.player?.timeOnField.toLocaleString()
-                      : props.notification.player?.timeOnField
-                  }
+                  {props.notification.player?.timeOnField > 1000
+                    ? props.notification.player?.timeOnField.toLocaleString()
+                    : props.notification.player?.timeOnField}
                   {"' "}
                   ⏱️
                 </Typography>
-              </Grid2>
-            </Grid2>
+              </Grid>
+            </Grid>
           </CardContent>
-          <CardActions>
+          <CardActions
+            sx={{
+              display: "flex",
+              flexDirection: { xs: "column", md: "row" },
+              justifyContent: "space-around",
+              alignItems: "center",
+              gap: 3,
+            }}
+          >
             <Button
+              fullWidth
+              endIcon={<ArrowForwardIcon />}
               variant="contained"
               size="medium"
               sx={{ fontWeight: "bold" }}
@@ -201,6 +215,15 @@ function PlayerNotification(props: PlayerNotificationProps) {
               Show Interest
             </Button>
             <Button
+              fullWidth
+              endIcon={
+                <img
+                  width="22"
+                  height="22"
+                  src="/icons/icons8-football-club-24.png"
+                  alt="external-football-soccer-tulpahn-basic-outline-tulpahn-5"
+                />
+              }
               variant="contained"
               size="medium"
               sx={{ fontWeight: "bold" }}
@@ -209,12 +232,21 @@ function PlayerNotification(props: PlayerNotificationProps) {
               View Team
             </Button>
             <Button
+              fullWidth
+              endIcon={
+                <img
+                  width="22"
+                  height="22"
+                  src="/icons/icons8-football-player-24.png"
+                  alt="external-football-soccer-tulpahn-basic-outline-tulpahn-5"
+                />
+              }
               variant="contained"
               size="medium"
               sx={{ fontWeight: "bold" }}
               color="error"
             >
-              Mark as Read
+              View Player
             </Button>
           </CardActions>
         </Card>

@@ -1,5 +1,5 @@
 import NotificationTabs from "@/components/NotificationTabs";
-import { Box, Button } from "@mui/material";
+import { Box } from "@mui/material";
 import React from "react";
 
 function Home() {
