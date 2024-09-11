@@ -18,11 +18,11 @@ import {
 } from "@mui/material";
 import React from "react";
 
-interface PlayerNotificationProps {
+interface ProposalNotificationProps {
   notification: Notification;
 }
 
-function PlayerNotification(props: PlayerNotificationProps) {
+function ProposalNotification(props: ProposalNotificationProps) {
   const eur = new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "EUR",
@@ -55,13 +55,13 @@ function PlayerNotification(props: PlayerNotificationProps) {
         }}
       />
       <Typography mt={2} variant="body2" gutterBottom>
-        Player <b>{props.notification.player?.playerName}</b> at{" "}
+        You proposed player <b>{props.notification.proposal?.sentPlayerName}</b>{" "}
+        to{" "}
         <b>
-          {props.notification.player?.currentTeam}(
-          {props.notification.player?.currentTeamCountry})
+          {props.notification.proposal?.offeredClubName}(
+          {props.notification.proposal?.offeredClubCountry})
         </b>{" "}
-        is assigned to you <b>{props.notification.player?.requestedPosition}</b>{" "}
-        player. You should to take a closer look at player&apos;s details
+        for <b>{props.notification.proposal?.position}</b> position.
       </Typography>
       <Box sx={{ width: "60%" }}>
         <Card
@@ -93,8 +93,8 @@ function PlayerNotification(props: PlayerNotificationProps) {
                   height: 200,
                   backgroundColor: "transparent",
                 }}
-                src={props.notification.player?.avatar}
-                alt={props.notification.player?.avatar}
+                src={props.notification.proposal?.avatar}
+                alt={props.notification.proposal?.avatar}
               />
               <Avatar
                 sx={{
@@ -102,8 +102,8 @@ function PlayerNotification(props: PlayerNotificationProps) {
                   height: 200,
                   backgroundColor: "transparent",
                 }}
-                src={props.notification.player?.teamLogo}
-                alt={props.notification.player?.teamName}
+                src={props.notification.proposal?.teamLogo}
+                alt={props.notification.proposal?.teamName}
               />
             </AvatarGroup>
           </Box>
@@ -122,22 +122,22 @@ function PlayerNotification(props: PlayerNotificationProps) {
                 </Typography>
                 <Divider />
                 <Typography variant="h6" component="div">
-                  Fullname: {props.notification.player?.playerName}
+                  Fullname: {props.notification.proposal?.sentPlayerName}
                 </Typography>
                 <Typography variant="h6" component="div">
-                  Nationality: {props.notification.player?.nationality}
+                  Nationality: {props.notification.proposal?.nationality}
                 </Typography>
                 <Typography variant="h6" component="div">
-                  Height: {props.notification.player?.height} cm
+                  Height: {props.notification.proposal?.height} cm
                 </Typography>
                 <Typography variant="h6" component="div">
                   Age:{" "}
                   {new Date().getFullYear() -
                     new Date(
-                      props.notification.player?.birthDate
+                      props.notification.proposal?.birthDate
                     ).getFullYear()}
                   {`(${new Date(
-                    props.notification.player?.birthDate
+                    props.notification.proposal?.birthDate
                   ).toLocaleDateString()})`}
                 </Typography>
               </Grid2>
@@ -147,19 +147,20 @@ function PlayerNotification(props: PlayerNotificationProps) {
                 </Typography>
                 <Divider />
                 <Typography variant="h6" component="div">
-                  Position: {props.notification.player?.position} -{" "}
-                  {positionEmojis[props.notification.player?.position] || "⚽️"}
+                  Position: {props.notification.proposal?.position} -{" "}
+                  {positionEmojis[props.notification.proposal?.position] ||
+                    "⚽️"}
                 </Typography>
                 <Typography variant="h6" component="div">
-                  Team: {props.notification.player?.currentTeam} (
-                  {props.notification.player?.currentTeamCountry})
+                  Team: {props.notification.proposal?.offeredClubName} (
+                  {props.notification.proposal?.offeredClubCountry})
                 </Typography>
                 <Typography variant="h6" component="div">
                   Requested At:{" "}
                   {new Date(props.notification.createdAt).toLocaleDateString()}
                 </Typography>
                 <Typography variant="h6" component="div">
-                  Uniform Number: #{props.notification.player?.uniformNumber}
+                  Uniform Number: #{props.notification.proposal?.uniformNumber}
                 </Typography>
               </Grid2>
               <Grid2 item xs={12}>
@@ -168,22 +169,22 @@ function PlayerNotification(props: PlayerNotificationProps) {
                 </Typography>
                 <Divider />
                 <Typography variant="h6" component="div">
-                  Appearances: {props.notification.player?.appearances} 🏃‍♂️
+                  Appearances: {props.notification.proposal?.appearances} 🏃‍♂️
                 </Typography>
                 <Typography variant="h6" component="div">
-                  Goals: {props.notification.player?.goals} ⚽️
+                  Goals: {props.notification.proposal?.goals} ⚽️
                 </Typography>
                 <Typography variant="h6" component="div">
                   Assists:
-                  {props.notification.player?.assists} 🎯
+                  {props.notification.proposal?.assists} 🎯
                 </Typography>
                 <Typography variant="h6" component="div">
                   Time On Field:{" "}
                   {
                     //show the number as digits if its more than 1000
-                    props.notification.player?.timeOnField > 1000
-                      ? props.notification.player?.timeOnField.toLocaleString()
-                      : props.notification.player?.timeOnField
+                    props.notification.proposal?.timeOnField > 1000
+                      ? props.notification.proposal?.timeOnField.toLocaleString()
+                      : props.notification.proposal?.timeOnField
                   }
                   {"' "}
                   ⏱️
@@ -223,4 +224,4 @@ function PlayerNotification(props: PlayerNotificationProps) {
   );
 }
 
-export default PlayerNotification;
+export default ProposalNotification;

@@ -3,14 +3,19 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
+
+import { notifications } from "@/data/notifications";
+import { Notification } from "@/types/notification";
+import TeamRequestNotification from "./TeamRequestNotification";
+import PlayerNotification from "./PlayerNotification";
 import {
   Avatar,
   AvatarGroup,
+  Button,
   Divider,
   FormControl,
   FormControlLabel,
   FormGroup,
-  FormHelperText,
   IconButton,
   InputLabel,
   MenuItem,
@@ -19,14 +24,10 @@ import {
   Switch,
   Tooltip,
 } from "@mui/material";
-
-//!Icons
-import MarkEmailReadIcon from "@mui/icons-material/MarkEmailRead";
-import { notifications } from "@/data/notifications";
-import { Notification } from "@/types/notification";
 import { getNotificationTitle, getTimeAgo } from "@/utils/general";
-import TeamRequestNotification from "./TeamRequestNotification";
-import PlayerNotification from "./PlayerNotification";
+import MarkEmailReadIcon from "@mui/icons-material/MarkEmailRead";
+import DraftsIcon from "@mui/icons-material/Drafts";
+import ProposalNotification from "./ProposalNotification";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -45,7 +46,11 @@ function TabPanel(props: TabPanelProps) {
       aria-labelledby={`vertical-tab-${index}`}
       {...other}
     >
-      {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
+      {value === index && (
+        <Box sx={{ p: 3 }}>
+          <Typography>{children}</Typography>
+        </Box>
+      )}
     </div>
   );
 }
@@ -119,6 +124,15 @@ export default function NotificationTabs() {
           direction="row"
           spacing={4}
         >
+          <Button
+            endIcon={<DraftsIcon />}
+            variant="contained"
+            size="large"
+            sx={{ fontWeight: "bold", fontSize: 16, p: 3 }}
+            color="error"
+          >
+            Mark as Read
+          </Button>
           <FormControl
             sx={{
               minWidth: 320,
@@ -202,15 +216,15 @@ export default function NotificationTabs() {
           {notifications.map((notification: Notification, index: number) => {
             return (
               <Tab
-                key={index}
                 sx={{
                   display: "flex",
                   flexDirection: "column",
                   justifyContent: "center",
                   alignItems: "start",
-                  width: 300,
+                  width: 360,
                   height: 145,
                 }}
+                key={index}
                 label={
                   <Box
                     sx={{
@@ -218,78 +232,84 @@ export default function NotificationTabs() {
                       flexDirection: "column",
                       justifyContent: "center",
                       alignItems: "start",
-                      width: 300,
+                      width: 350,
                       height: 125,
                       mt: 2,
                     }}
                   >
-                    {/* AvatarGroup representing players/clubs */}
-                    <AvatarGroup max={2}>
-                      <Avatar
-                        sx={{
-                          width: 42,
-                          height: 42,
-                        }}
-                        alt={
-                          notification.type === "team_request"
-                            ? notification.teamRequest?.teamName
-                            : notification.type === "player_notification"
-                            ? notification.player?.playerName
-                            : notification.type === "proposal"
-                            ? notification.proposal?.sentPlayerName
-                            : "Sender"
-                        }
-                        src={
-                          notification.type === "team_request"
-                            ? notification.teamRequest?.teamLogo
-                            : notification.type === "player_notification"
-                            ? notification.player?.avatar
-                            : notification.type === "proposal"
-                            ? notification.proposal?.avatar
-                            : "Sender"
-                        }
-                      />
-
-                      <Avatar
-                        sx={{
-                          width: 42,
-                          height: 42,
-                          backgroundColor: "#FFD700",
-                        }}
-                        alt={
-                          notification.type === "team_request"
-                            ? notification.teamRequest?.teamLogo
-                            : notification.type === "player_notification"
-                            ? notification.player?.avatar
-                            : notification.type === "proposal"
-                            ? notification.proposal?.avatar
-                            : "Sender"
-                        }
-                      >
-                        {notification.type === "team_request" ? (
-                          notification.teamRequest?.requestedPosition
-                        ) : notification.type === "player_notification" ? (
-                          <img
-                            style={{
-                              width: 42,
-                              height: 42,
-                            }}
-                            src={notification.player?.teamLogo}
-                          />
-                        ) : notification.type === "proposal" ? (
-                          <img
-                            style={{
-                              width: 42,
-                              height: 42,
-                            }}
-                            src={notification.proposal?.senderClubLogo}
-                          />
-                        ) : (
-                          "Sender"
-                        )}
-                      </Avatar>
-                    </AvatarGroup>
-
+                    <Stack direction={"row"} spacing={0}>
+                      <AvatarGroup max={2}>
+                        <Avatar
+                          sx={{
+                            width: 42,
+                            height: 42,
+                            objectFit: "cover",
+                            objectPosition: "center",
+                          }}
+                          alt={
+                            notification.type === "team_request"
+                              ? notification.teamRequest?.teamName
+                              : notification.type === "player_notification"
+                              ? notification.player?.playerName
+                              : notification.type === "proposal"
+                              ? notification.proposal?.sentPlayerName
+                              : "Sender"
+                          }
+                          src={
+                            notification.type === "team_request"
+                              ? notification.teamRequest?.teamLogo
+                              : notification.type === "player_notification"
+                              ? notification.player?.avatar
+                              : notification.type === "proposal"
+                              ? notification.proposal?.avatar
+                              : "Sender"
+                          }
+                        />
+                        <Avatar
+                          sx={{
+                            width: 42,
+                            height: 42,
+                            backgroundColor:
+                              notification.type === "proposal"
+                                ? "transparent"
+                                : "primary.main",
+                            objectFit: "cover",
+                            objectPosition: "center",
+                          }}
+                          alt={
+                            notification.type === "team_request"
+                              ? notification.teamRequest?.teamLogo
+                              : notification.type === "player_notification"
+                              ? notification.player?.avatar
+                              : notification.type === "proposal"
+                              ? notification.proposal?.avatar
+                              : "Sender"
+                          }
+                        >
+                          {notification.type === "team_request" ? (
+                            notification.teamRequest?.requestedPosition
+                          ) : notification.type === "player_notification" ? (
+                            <img
+                              style={{
+                                width: 42,
+                                height: 42,
+                              }}
+                              src={notification.player?.teamLogo}
+                            />
+                          ) : notification.type === "proposal" ? (
+                            <img
+                              style={{
+                                width: 42,
+                                height: 42,
+                              }}
+                              src={notification.proposal?.offeredClubLogo}
+                            />
+                          ) : (
+                            "Sender"
+                          )}
+                        </Avatar>
+                      </AvatarGroup>
+                    </Stack>
                     <Stack
                       sx={{
                         width: "90%",
@@ -307,15 +327,14 @@ export default function NotificationTabs() {
                           {getTimeAgo(notification.createdAt)}
                         </Typography>
                       </Stack>
-
-                      <Tooltip title="Mark as read" arrow placement="top">
-                        <IconButton
-                          color="secondary"
-                          //   onClick={() => handleMarkAsRead(notification.id)}
-                        >
-                          <MarkEmailReadIcon />
-                        </IconButton>
-                      </Tooltip>
+                      {/* <Tooltip title="Mark as read" arrow placement="top">
+                      <IconButton
+                        color="secondary"
+                        //   onClick={() => handleMarkAsRead(notification.id)}
+                      >
+                        <MarkEmailReadIcon />
+                      </IconButton>
+                    </Tooltip> */}
                     </Stack>
                   </Box>
                 }
@@ -326,31 +345,33 @@ export default function NotificationTabs() {
         </Tabs>
         {notifications.map((notification: Notification, index: number) => {
           return (
-            <TabPanel key={index} value={value} index={index}>
-              <Box
-                sx={{
-                  width: {
-                    xs: "100%",
-                    md: "65vw",
-                    lg: "70vw",
-                    xl: "75vw",
-                  },
-                  height: { xs: "100%", md: 550, lg: 625, xl: 730 },
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                {notification.type === "team_request" ? (
-                  <TeamRequestNotification notification={notification} />
-                ) : notification.type === "player_notification" ? (
-                  <PlayerNotification notification={notification} />
-                ) : (
-                  <Typography variant="h4">Proposal Notification</Typography>
-                )}
-              </Box>
-            </TabPanel>
+            <>
+              <TabPanel value={value} index={index}>
+                <Box
+                  sx={{
+                    width: {
+                      xs: "100%",
+                      md: "65vw",
+                      lg: "70vw",
+                      xl: "75vw",
+                    },
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "center",
+                    alignItems: "start",
+                    marginTop: 4,
+                  }}
+                >
+                  {notification.type === "team_request" ? (
+                    <TeamRequestNotification notification={notification} />
+                  ) : notification.type === "player_notification" ? (
+                    <PlayerNotification notification={notification} />
+                  ) : (
+                    <ProposalNotification notification={notification} />
+                  )}
+                </Box>
+              </TabPanel>
+            </>
           );
         })}
       </Box>

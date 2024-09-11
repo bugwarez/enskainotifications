@@ -66,10 +66,20 @@ interface ProposalNotification extends BaseNotification {
   proposal: {
     sentPlayerId: number;
     sentPlayerName: string;
-    senderClubId: number;
+    offeredClubId: number;
+    offeredClubCountry: string;
     avatar: string;
-    senderClubLogo: string;
-    senderClubName: string;
+    offeredClubLogo: string;
+    offeredClubName: string;
+    birthDate: string;
+    nationality: string;
+    appearances: number;
+    timeOnField: number;
+    goals: number;
+    assists: number;
+    height: number;
+    uniformNumber: number;
+    position: Position;
     proposedSalary: string;
   };
 }

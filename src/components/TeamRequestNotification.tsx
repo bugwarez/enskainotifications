@@ -14,7 +14,7 @@ import {
   useTheme,
 } from "@mui/material";
 import React from "react";
-
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 interface TeamRequestNotificationProps {
   notification: Notification;
 }
@@ -135,6 +135,7 @@ function TeamRequestNotification(props: TeamRequestNotificationProps) {
           </CardContent>
           <CardActions>
             <Button
+              endIcon={<ArrowForwardIcon />}
               variant="contained"
               size="medium"
               sx={{ fontWeight: "bold" }}
@@ -143,6 +144,14 @@ function TeamRequestNotification(props: TeamRequestNotificationProps) {
               Show Interest
             </Button>
             <Button
+              endIcon={
+                <img
+                  width="22"
+                  height="22"
+                  src="/icons/icons8-football-club-24.png"
+                  alt="external-football-soccer-tulpahn-basic-outline-tulpahn-5"
+                />
+              }
               variant="contained"
               size="medium"
               sx={{ fontWeight: "bold" }}

@@ -5,7 +5,7 @@ export function getNotificationTitle(notification) {
     case "player_notification":
       return `${notification.player?.playerName} has been assigned to you`;
     case "proposal":
-      return `Proposal: ${notification.proposal?.sentPlayerName} to ${notification.proposal?.senderClubName}`;
+      return `Proposal: ${notification.proposal?.sentPlayerName} to ${notification.proposal?.offeredClubName}`;
     default:
       return "Notification";
   }

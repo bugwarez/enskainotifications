@@ -66,12 +66,22 @@ export const notifications: Notification[] = [
       sentPlayerId: 11,
       sentPlayerName: "Kylian Mbappé",
       avatar:
-        "https://img.a.transfermarkt.technology/portrait/big/342229-1682683695.jpg?lm=1",
-      senderClubId: 3,
-      senderClubName: "PSG",
-      senderClubLogo:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQcJ-yH2jQACwlL4bxsHuta1gawqUQoAUTC_g&s",
-      proposedSalary: "€25M per year",
+        "https://img.a.transfermarkt.technology/portrait/header/342229-1682683695.jpg?lm=1",
+      offeredClubId: 3,
+      offeredClubName: "Real Madrid",
+      offeredClubCountry: "Spain",
+      offeredClubLogo:
+        "https://tmssl.akamaized.net//images/wappen/homepageWappen70x70/418.png?lm=1697726166",
+      birthDate: "1998-12-20T09:00:00Z",
+      nationality: "France",
+      appearances: 378,
+      timeOnField: 28785,
+      goals: 291,
+      assists: 126,
+      height: 178,
+      uniformNumber: 9,
+      position: "ST",
+      proposedSalary: "€31,25M per year",
     },
   },
 ];
